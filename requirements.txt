@@ -5,3 +5,4 @@ shap
 dice-ml
 numpy
 fg-data-profiling
+ipykernel
