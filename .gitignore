@@ -18,6 +18,7 @@ data/preprocessed/
 *.tsv
 *.xlsx
 *.xls
+*.xpt
 *.parquet
 *.feather
 
