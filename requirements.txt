@@ -4,4 +4,4 @@ requests
 shap
 dice-ml
 numpy
-ydata-profiling
+fg-data-profiling
