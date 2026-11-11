@@ -6,3 +6,4 @@ dice-ml
 numpy
 fg-data-profiling
 ipykernel
+xlsxwriter
