@@ -3,3 +3,5 @@ scikit-learn
 requests
 shap
 dice-ml
+numpy
+ydata_profiling
