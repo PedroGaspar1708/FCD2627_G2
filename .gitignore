@@ -1,0 +1,104 @@
+# ==========================================
+# 1. Secrets and Local Configurations
+# ==========================================
+.env
+*.env
+.env.*
+secrets.json
+
+# ==========================================
+# 2. Data and Datasets
+# ==========================================
+# Ignore raw/large datasets (prevents hitting GitHub's 100MB limit)
+data/raw/
+data/preprocessed/
+
+# Tabular formats and data files
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+
+# Binary formats and arrays
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# Compressed archives
+*.zip
+*.gz
+*.tar
+*.7z
+
+
+# ==========================================
+# 3. Python and Virtual Environments
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments (local dependencies)
+fcd_env/
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Build files and package distribution
+*.egg-info/
+build/
+dist/
+
+# Test tools and linters cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Log files
+*.log
+
+# ==========================================
+# 4. Operating System (Windows & macOS)
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_dir.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ==========================================
+# 5. Editors and IDEs (VS Code & JetBrains)
+# ==========================================
+# JetBrains / PyCharm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code (Ignores personal cache, keeps team config exceptions available)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
