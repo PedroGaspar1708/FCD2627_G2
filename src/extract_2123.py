@@ -1,5 +1,6 @@
+import functools
 import os
-import numpy as np
+import io
 import pandas as pd
 import requests
 
@@ -11,22 +12,19 @@ os.makedirs(RAW_PATH, exist_ok=True)
 
 
 def carregar(nome: str, obrigatorio: bool = True) -> pd.DataFrame:
-    """Descarrega (com cache local em data/raw) e lê um ficheiro .xpt do NHANES sem qualquer filtro."""
+    """Descarrega e lê um ficheiro .xpt do NHANES diretamente em memória (nada é guardado em disco)."""
     fich = f"{nome}_{SUFIXO}.xpt"
-    caminho = os.path.join(RAW_PATH, fich)
-    if not os.path.exists(caminho):
-        try:
-            r = requests.get(BASE + fich, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
-            r.raise_for_status()
-        except requests.RequestException as e:
-            if obrigatorio:
-                raise
-            print(f"[aviso] {fich} não disponível ({e}); ignorado.")
-            return None
-        with open(caminho, "wb") as f:
-            f.write(r.content)
-    return pd.read_sas(caminho, format="xport")
+    try:
+        r = requests.get(BASE + fich, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
+        r.raise_for_status()
 
+    except requests.RequestException as e:
+        if obrigatorio:
+            raise
+        print(f"[aviso] {fich} não disponível ({e}); ignorado.")
+        return None
+    
+    return pd.read_sas(io.BytesIO(r.content), format="xport")
 
 def sel(df: pd.DataFrame, colunas: list) -> pd.DataFrame:
     """Mantém SEQN + as colunas pedidas que existam no DataFrame."""
@@ -102,7 +100,7 @@ def main():
     dfs_validos = [d for d in dfs if d is not None]
 
     # --- 2. Junção Externa Completa (FULL OUTER JOIN) ---
-    df_raw_merged = __import__("functools").reduce(
+    df_raw_merged = functools.reduce(
         lambda left, right: pd.merge(left, right, on="SEQN", how="outer"),
         dfs_validos
     )
