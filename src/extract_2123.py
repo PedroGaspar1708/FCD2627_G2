@@ -84,24 +84,21 @@ def main():
     demo = sel(carregar("DEMO"), ["DMDEDUC2", "RIAGENDR", "RIDAGEYR", "INDFMPIR"])
     
     bmx = sel(carregar("BMX"), ["BMXBMI"])
-    lux = sel(carregar("LUX"), ["LUAXSTAT"])
     hiq = sel(carregar("HIQ"), ["HIQ011"])
-    paq = sel(carregar("PAQ"), ["PAD680", "PAD790Q", "PAD790U", "PAD810Q", "PAD810U"])
+    paq = sel(carregar("PAQ"), ["PAD680", "PAD790Q", "PAD790U"])
     bpq = sel(carregar("BPQ"), ["BPQ030"])
     alq = sel(carregar("ALQ"), ["ALQ121"])
     smq = sel(carregar("SMQ"), ["SMQ040", "SMQ020"])
     slq = sel(carregar("SLQ"), ["SLD012", "SLD013"])
     ocq = sel(carregar("OCQ"), ["OCQ180"])
-    fnq = sel(carregar("FNQ"), ["FNQ140"])
-    
+        
     bio = sel(carregar("BIOPRO"), ["LBXSAL", "LBXSCR", "LBXSGL", "LBXSAPSI"])
     crp = sel(carregar("HSCRP"), ["LBXHSCRP"])
     cbc = sel(carregar("CBC"), ["LBXLYPCT", "LBXMCVSI", "LBXRDW", "LBXWBCSI"])
     tchol = sel(carregar("TCHOL"), ["LBDTCSI"])
-    ffmr = sel(carregar("FFMR"), ["LBDRF7SI"])
 
     # Lista de todos os dataframes carregados sem qualquer filtro/limpeza
-    dfs = [demo, dr1, dr2, bmx, lux, hiq, paq, bpq, alq, smq, slq, ocq, fnq, bio, crp, cbc, tchol, ffmr]
+    dfs = [demo, dr1, dr2, bmx, bpq, hiq, paq, alq, smq, slq, ocq, bio, crp, cbc, tchol]
     dfs_validos = [d for d in dfs if d is not None]
 
     # --- 2. Junção Externa Completa (FULL OUTER JOIN) ---
@@ -110,11 +107,13 @@ def main():
         dfs_validos
     )
 
+    df_raw_merged["CICLO"] = "2021-2023"
+
     print(f"Total de registos únicos (SEQN) extraídos: {len(df_raw_merged)}")
     print(f"Total de colunas extraídas: {len(df_raw_merged.columns)}")
 
     # --- 3. Exportação para Excel na pasta data/raw ---
-    exportar_como_tabela_excel(df_raw_merged, "nhanes_raw_merged.xlsx", nome_folha="NHANES_RAW")
+    exportar_como_tabela_excel(df_raw_merged, "nhanes_raw_merged_2021_2023.xlsx", nome_folha="NHANES_RAW")
 
 
 if __name__ == "__main__":
