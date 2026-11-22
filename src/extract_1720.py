@@ -90,11 +90,11 @@ def main(exportar: bool = True) -> pd.DataFrame:
     bmx = sel(carregar("BMX"), ["BMXBMI"])
     hiq = sel(carregar("HIQ"), ["HIQ011"])
     paq = sel(carregar("PAQ"), ["PAD680","PAQ670"])
-    bpq = sel(carregar("BPQ"), ["BPQ030"])
+    bpq = sel(carregar("BPQ"), ["BPQ020","BPQ030"])
     alq = sel(carregar("ALQ"), ["ALQ121"])
     smq = sel(carregar("SMQ"), ["SMQ040", "SMQ020"])
     slq = sel(carregar("SLQ"), ["SLD012", "SLD013"])
-    ocq = sel(carregar("OCQ"), ["OCQ180"])
+    ocq = sel(carregar("OCQ"), ["OCD150","OCQ180"])
 
     bio = sel(carregar("BIOPRO"), ["LBXSAL", "LBXSCR", "LBXSGL", "LBXSAPSI"])
     crp = sel(carregar("HSCRP"), ["LBXHSCRP"])
