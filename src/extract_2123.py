@@ -11,20 +11,26 @@ RAW_PATH = os.path.join("data", "raw")
 os.makedirs(RAW_PATH, exist_ok=True)
 
 
+def corrigir_zeros(df: pd.DataFrame) -> pd.DataFrame:
+    """Nos .xpt do NHANES, alguns zeros vêm codificados como ~5.397605e-79; converte-os para 0."""
+    num = df.select_dtypes("number").columns
+    df[num] = df[num].mask(df[num].abs() < 1e-50, 0)
+    return df
+
+
 def carregar(nome: str, obrigatorio: bool = True) -> pd.DataFrame:
     """Descarrega e lê um ficheiro .xpt do NHANES diretamente em memória (nada é guardado em disco)."""
     fich = f"{nome}_{SUFIXO}.xpt"
     try:
         r = requests.get(BASE + fich, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
         r.raise_for_status()
-
     except requests.RequestException as e:
         if obrigatorio:
             raise
         print(f"[aviso] {fich} não disponível ({e}); ignorado.")
         return None
-    
-    return pd.read_sas(io.BytesIO(r.content), format="xport")
+    df = pd.read_sas(io.BytesIO(r.content), format="xport")
+    return corrigir_zeros(df)
 
 def sel(df: pd.DataFrame, colunas: list) -> pd.DataFrame:
     """Mantém SEQN + as colunas pedidas que existam no DataFrame."""
